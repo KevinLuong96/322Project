@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using tbd.Models;
+using tbd.Services;
 
 namespace tbd.Controllers
 {
@@ -32,10 +33,10 @@ namespace tbd.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetTodoItem(long id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<User>> GetTodoItem(string username)
         {
-            var todoItem = await _context.Users.FindAsync(id);
+            var todoItem = await _context.Users.FindAsync(username);
 
             if (todoItem == null)
             {
@@ -46,12 +47,16 @@ namespace tbd.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostTodoItem(User item)
+        public async Task<ActionResult<User>> PostTodoItem(User user)
         {
-            _context.Users.Add(item);
-            await _context.SaveChangesAsync();
+            //var id = _context.Users.Count();
+            if (await _context.Users.FindAsync(user.Username) != null){
+                return BadRequest("User with username already exists");
+            }
 
-            return CreatedAtAction(nameof(GetTodoItem), new { id = item.Id }, item);
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetTodoItem), new { user.Username }, user);
         }
     }
 }
