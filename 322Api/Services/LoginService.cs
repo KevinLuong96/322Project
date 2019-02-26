@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using tbd.Models;
+using _322Api.Models;
 
-namespace tbd.Services
-{
-    public class LoginService
+namespace _322Api.Services
+{ 
+public class LoginService
     {
         private readonly UserContext _context;
 

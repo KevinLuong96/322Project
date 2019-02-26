@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using tbd.Models;
-using tbd.Services;
+using _322Api.Models;
+using _322Api.Services;
 
-namespace tbd.Controllers
+namespace _322Api.Controllers
 {
     [Route("api/[controller]")]
 

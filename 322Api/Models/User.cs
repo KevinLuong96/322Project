@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace tbd.Models
+namespace _322Api.Models
 {
     public class User
     {

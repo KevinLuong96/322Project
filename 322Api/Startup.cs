@@ -11,11 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using tbd.Models;
+using _322Api.Models;
 
 
-namespace tbd
-{
+namespace _322Api
+{ 
     public class Startup
     {
         public Startup(IConfiguration configuration)

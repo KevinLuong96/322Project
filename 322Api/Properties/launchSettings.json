@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "tbd": {
+    "322Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/user",
