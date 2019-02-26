@@ -20,4 +20,10 @@
   <ItemGroup>
     <Compile Remove="Controllers\HomeController.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="bfLogoForPres.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="bfLogoForPres.png" />
+  </ItemGroup>
 </Project>
