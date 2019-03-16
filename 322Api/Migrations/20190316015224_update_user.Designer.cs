@@ -8,7 +8,7 @@ using _322Api.Models;
 
 namespace _322Api.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(DatabaseContext))]
     [Migration("20190316015224_update_user")]
     partial class update_user
     {

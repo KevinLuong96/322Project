@@ -2,9 +2,9 @@
 
 namespace _322Api.Models
 {
-    public class UserContext : DbContext
+    public class DatabaseContext : DbContext
     {
-        public UserContext(DbContextOptions<UserContext> options)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
         }

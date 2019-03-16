@@ -8,9 +8,9 @@ namespace _322Api.Services
 {
     public class LoginService
     {
-        private readonly UserContext _context;
+        private readonly DatabaseContext _context;
 
-        public LoginService(UserContext context)
+        public LoginService(DatabaseContext context)
         {
             this._context = context;
         }

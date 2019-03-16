@@ -20,11 +20,11 @@ namespace _322Api.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly DatabaseContext _context;
         private IConfiguration _config;
         private LoginService loginService;
 
-        public LoginController(UserContext context, IConfiguration config)
+        public LoginController(DatabaseContext context, IConfiguration config)
         {
             this._context = context;
             this._config = config;
