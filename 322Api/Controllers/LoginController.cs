@@ -29,11 +29,11 @@ namespace _322Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Authenticate(User user)
+        public ActionResult Authenticate(User user)
         {
 
             var res = Response;
-            if (!await loginService.Auth(user))
+            if (!loginService.Auth(user))
             {
                 return BadRequest("Incorrect username or password");
             }

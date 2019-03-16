@@ -20,12 +20,14 @@ namespace _322Api.Migrations
 
             modelBuilder.Entity("_322Api.Models.User", b =>
                 {
-                    b.Property<string>("Username")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Password");
 
-                    b.HasKey("Username");
+                    b.Property<string>("Username");
+
+                    b.HasKey("ID");
 
                     b.ToTable("Users");
                 });

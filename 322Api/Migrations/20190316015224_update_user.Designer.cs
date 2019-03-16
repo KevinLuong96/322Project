@@ -9,8 +9,8 @@ using _322Api.Models;
 namespace _322Api.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20190316011202_initial")]
-    partial class initial
+    [Migration("20190316015224_update_user")]
+    partial class update_user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,12 +22,14 @@ namespace _322Api.Migrations
 
             modelBuilder.Entity("_322Api.Models.User", b =>
                 {
-                    b.Property<string>("Username")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Password");
 
-                    b.HasKey("Username");
+                    b.Property<string>("Username");
+
+                    b.HasKey("ID");
 
                     b.ToTable("Users");
                 });
