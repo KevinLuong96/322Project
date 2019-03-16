@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Extensions.Configuration;
+using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using _322Api.Models;
 using _322Api.Services;
 
@@ -15,29 +21,35 @@ namespace _322Api.Controllers
     public class LoginController : ControllerBase
     {
         private readonly UserContext _context;
+        private IConfiguration _config;
         private LoginService loginService;
 
-        public LoginController(UserContext context)
+        public LoginController(UserContext context, IConfiguration config)
         {
-            _context = context;
+            this._context = context;
+            this._config = config;
             loginService = new LoginService(context);
         }
-        [HttpGet]
-        public string test()
-        {
-            return "test";
-        }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Authenticate(User user)
         {
-
             var res = Response;
             if (!loginService.Auth(user))
             {
                 return BadRequest("Incorrect username or password");
             }
-            return Ok("Login Succesful");
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+              _config["Jwt:Issuer"],
+              expires: DateTime.Now.AddMinutes(10080),
+              signingCredentials: creds);
+
+            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
 }

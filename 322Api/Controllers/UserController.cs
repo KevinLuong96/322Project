@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IdentityModel;
 using _322Api.Models;
 using _322Api.Services;
 
 namespace _322Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -47,7 +50,8 @@ namespace _322Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostTodoItem(User user)
+        [AllowAnonymous]
+        public async Task<ActionResult<User>> Register(User user)
         {
             //var id = _context.Users.Count();
             if (await _context.Users.FindAsync(user.Username) != null)
