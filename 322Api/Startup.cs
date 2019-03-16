@@ -15,7 +15,7 @@ using _322Api.Models;
 
 
 namespace _322Api
-{ 
+{
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -28,8 +28,10 @@ namespace _322Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("UserContext"));
+            services.AddDbContext<UserContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

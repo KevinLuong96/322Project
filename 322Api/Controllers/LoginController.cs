@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using _322Api.Models;
 using _322Api.Services;
 
@@ -28,15 +29,15 @@ namespace _322Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Authenticate(User user)
+        public async Task<ActionResult> Authenticate(User user)
         {
-            var id = _context.Users.Count();
-            if (await loginService.Auth(user))
-            {
-                return "Token";
-            }
 
-            return "Unauth";
+            var res = Response;
+            if (!await loginService.Auth(user))
+            {
+                return BadRequest("Incorrect username or password");
+            }
+            return Ok("Login Succesful");
         }
     }
 }

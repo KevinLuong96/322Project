@@ -22,7 +22,7 @@ namespace _322Api.Controllers
             {
                 // Create a new TodoItem if collection is empty,
                 // which means you can't delete all TodoItems.
-                _context.Users.Add(new User { Username = "Item1" });
+                _context.Users.Add(new User { Username = "test@testing.com", Password = "supersecretstring" });
                 _context.SaveChanges();
             }
         }
@@ -50,7 +50,8 @@ namespace _322Api.Controllers
         public async Task<ActionResult<User>> PostTodoItem(User user)
         {
             //var id = _context.Users.Count();
-            if (await _context.Users.FindAsync(user.Username) != null){
+            if (await _context.Users.FindAsync(user.Username) != null)
+            {
                 return BadRequest("User with username already exists");
             }
 
