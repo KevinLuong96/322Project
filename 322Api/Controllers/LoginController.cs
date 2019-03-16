@@ -44,6 +44,7 @@ namespace _322Api.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            //One week expiration 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
               expires: DateTime.Now.AddMinutes(10080),

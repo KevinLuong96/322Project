@@ -10,5 +10,9 @@ namespace _322Api.Models
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Component> Components { get; set; }
+        public DbSet<Phone> Phones { get; set; }
+        public DbSet<ReviewSource> ReviewSources { get; set; }
     }
 }

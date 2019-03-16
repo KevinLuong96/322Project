@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using _322Api.Models;
@@ -9,9 +10,10 @@ using _322Api.Models;
 namespace _322Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20190316205826_devices2")]
+    partial class devices2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +58,7 @@ namespace _322Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("PhoneId");
+                    b.Property<int>("DeviceId");
 
                     b.Property<string>("ReviewText");
 

@@ -9,7 +9,7 @@ using _322Api.Models;
 namespace _322Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
