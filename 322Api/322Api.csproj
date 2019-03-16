@@ -29,6 +29,7 @@
     <Compile Remove="Migrations\20190316205826_devices2.Designer.cs" />
     <Compile Remove="Migrations\20190316210017_reviews.cs" />
     <Compile Remove="Migrations\20190316210017_reviews.Designer.cs" />
+    <Compile Remove="Services\HomeController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="bfLogoForPres.png" />
