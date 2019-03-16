@@ -20,15 +20,13 @@ namespace _322Api.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly DatabaseContext _context;
-        private IConfiguration _config;
-        private LoginService loginService;
+        private readonly IConfiguration _config;
+        private readonly LoginService _loginService;
 
         public LoginController(DatabaseContext context, IConfiguration config)
         {
-            this._context = context;
             this._config = config;
-            loginService = new LoginService(context);
+            this._loginService = new LoginService(context);
         }
 
         [AllowAnonymous]
@@ -36,7 +34,7 @@ namespace _322Api.Controllers
         public ActionResult Authenticate(User user)
         {
             var res = Response;
-            if (!loginService.Auth(user))
+            if (!this._loginService.Auth(user))
             {
                 return BadRequest("Incorrect username or password");
             }
