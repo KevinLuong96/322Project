@@ -22,22 +22,41 @@ namespace _322Api.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly ReviewService _reviewService;
+        private readonly PhoneService _phoneService;
 
         public ReviewController(DatabaseContext context)
         {
             _reviewService = new ReviewService(context);
+            _phoneService = new PhoneService(context);
         }
 
         [HttpGet]
-        public ActionResult GetDeviceReviewByName([FromQuery] string deviceName)
+        public async Task<ActionResult> GetDeviceReviewByName([FromQuery] string deviceName)
         {
             if (deviceName is null)
             {
                 return BadRequest("No device name sent");
             }
+            deviceName = deviceName.ToLower();
+
+            int phoneId = this._phoneService.GetPhoneIdByName(deviceName);
+            //if phone doesnt exist in DB
+            if (phoneId == 0)
+            {
+                var tasks = new List<Task>
+                {
+                    this._phoneService.CreatePhone(deviceName)
+                    //perform crawl in here too
+                };
+                await Task.WhenAll(tasks.ToArray());
+
+                //return data got from scraping 
+                return Ok(null);
+            }
+
 
             Review[] reviews;
-            reviews = this._reviewService.QueryReviewsByName(deviceName);
+            reviews = this._reviewService.QueryReviewsById(phoneId);
             return Ok(reviews);
         }
     }

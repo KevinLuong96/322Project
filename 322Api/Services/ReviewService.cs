@@ -14,16 +14,20 @@ namespace _322Api.Services
             this._context = context;
         }
 
-        public Review[] QueryReviewsByName(string name)
-        {
-            Phone phone = this._context.Phones.Where(p => p.Name == name).FirstOrDefault();
-            if (phone is null)
-            {
-                return null;
-            }
+        //public Review[] QueryReviewsByName(string name)
+        //{
+        //    if (phone is null)
+        //    {
+        //        return null;
+        //    }
 
+        //    return QueryReviewsById(phone.Id);
+        //}
+
+        public Review[] QueryReviewsById(int Id)
+        {
             Review[] reviews;
-            reviews = this._context.Reviews.Where(r => r.PhoneId == phone.Id).ToArray();
+            reviews = this._context.Reviews.Where(r => r.PhoneId == Id).ToArray();
 
             return reviews;
         }
