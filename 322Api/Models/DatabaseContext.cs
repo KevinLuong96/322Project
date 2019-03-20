@@ -7,6 +7,7 @@ namespace _322Api.Models
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
+
         }
 
         public DbSet<User> Users { get; set; }

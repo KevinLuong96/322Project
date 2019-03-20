@@ -9,7 +9,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,9 +29,14 @@
     <Compile Remove="Migrations\20190316210017_reviews.cs" />
     <Compile Remove="Migrations\20190316210017_reviews.Designer.cs" />
     <Compile Remove="Services\HomeController.cs" />
+    <Compile Remove="Migrations\20190316205310_devices.cs" />
+    <Compile Remove="Migrations\20190316210116_reviews.Designer.cs" />
+    <Compile Remove="Migrations\20190319232222_migrate.cs" />
+    <Compile Remove="Migrations\20190319232222_migrate.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="bfLogoForPres.png" />
+    <None Remove="migrate.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="bfLogoForPres.png" />

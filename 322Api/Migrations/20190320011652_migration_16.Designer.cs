@@ -10,8 +10,8 @@ using _322Api.Models;
 namespace _322Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190316210116_reviews")]
-    partial class reviews
+    [Migration("20190320011652_migration_16")]
+    partial class migration_16
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -1,0 +1,33 @@
+﻿version: '3.4'
+
+networks:
+    api:
+        driver: bridge
+        
+services:
+    322api:
+        image: 322api:latest
+        depends_on: 
+        - postgres
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+        - 8080:80
+        networks:
+        - api
+            
+    postgres:
+        image: postgres:latest
+        ports: 
+        - 5432
+        restart: always
+        environment:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+            POSTGRES_DB: "322api"
+        networks:
+        - api
+        volumes:
+        - ./migrate.sql:/docker-entrypoint-initdb.d/migrate.sql
+        

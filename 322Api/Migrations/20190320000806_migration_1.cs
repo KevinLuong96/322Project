@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace _322Api.Migrations
 {
-    public partial class devices2 : Migration
+    public partial class migration_1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,6 +39,21 @@ namespace _322Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    PhoneId = table.Column<int>(nullable: false),
+                    SourceId = table.Column<int>(nullable: false),
+                    ReviewText = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ReviewSources",
                 columns: table => new
                 {
@@ -49,6 +64,21 @@ namespace _322Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ReviewSources", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Username = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    History = table.Column<string[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
         }
 
@@ -61,7 +91,13 @@ namespace _322Api.Migrations
                 name: "Phones");
 
             migrationBuilder.DropTable(
+                name: "Reviews");
+
+            migrationBuilder.DropTable(
                 name: "ReviewSources");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

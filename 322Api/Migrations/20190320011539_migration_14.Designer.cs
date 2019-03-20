@@ -10,8 +10,8 @@ using _322Api.Models;
 namespace _322Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190316205826_devices2")]
-    partial class devices2
+    [Migration("20190320011539_migration_14")]
+    partial class migration_14
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,7 +58,7 @@ namespace _322Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("DeviceId");
+                    b.Property<int>("PhoneId");
 
                     b.Property<string>("ReviewText");
 

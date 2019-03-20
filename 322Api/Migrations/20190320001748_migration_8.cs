@@ -2,7 +2,7 @@
 
 namespace _322Api.Migrations
 {
-    public partial class devices : Migration
+    public partial class migration_8 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

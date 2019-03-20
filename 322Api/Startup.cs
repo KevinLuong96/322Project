@@ -34,6 +34,10 @@ namespace _322Api
         {
             services.AddDbContext<DatabaseContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            //services.AddDbContext<DatabaseContext>(opt =>
+            //opt.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -50,7 +54,6 @@ namespace _322Api
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
-
 
         }
 
@@ -69,7 +72,13 @@ namespace _322Api
             //app.UseHttpsRedirection();
             app.UseAuthentication();
 
+
             app.UseMvc();
+            //var services = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            //var context = services.ServiceProvider.GetService<DbContext>();
+            //context.Database.Migrate();
+            //context.EnsureSeedData();
         }
     }
 }
+

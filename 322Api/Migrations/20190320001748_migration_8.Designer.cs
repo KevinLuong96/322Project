@@ -10,8 +10,8 @@ using _322Api.Models;
 namespace _322Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190316205310_devices")]
-    partial class devices
+    [Migration("20190320001748_migration_8")]
+    partial class migration_8
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,12 +21,44 @@ namespace _322Api.Migrations
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("_322Api.Models.Component", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ComponentName");
+
+                    b.Property<int>("DeviceID");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Components");
+                });
+
+            modelBuilder.Entity("_322Api.Models.Phone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("LastCrawl");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string[]>("Providers");
+
+                    b.Property<int>("Score");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Phones");
+                });
+
             modelBuilder.Entity("_322Api.Models.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("DeviceId");
+                    b.Property<int>("PhoneId");
 
                     b.Property<string>("ReviewText");
 
@@ -35,6 +67,18 @@ namespace _322Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("_322Api.Models.ReviewSource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("SourceName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReviewSources");
                 });
 
             modelBuilder.Entity("_322Api.Models.User", b =>
