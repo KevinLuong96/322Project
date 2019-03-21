@@ -11,7 +11,9 @@ namespace _322Api.Models
     {
         public int Id { get; private set; }
         public readonly Roles role;
+        [Required]
         public string Username { get; set; }
+        [Required]
         public string Password { get; set; }
         public string[] History { get; set; }
     }

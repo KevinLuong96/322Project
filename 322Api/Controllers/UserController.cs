@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -18,10 +19,12 @@ namespace _322Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly DatabaseContext _context;
+        private readonly UserService _userService;
 
         public UserController(DatabaseContext context)
         {
             _context = context;
+            this._userService = new UserService(context);
 
             if (_context.Users.Count() == 0)
             {
@@ -38,40 +41,19 @@ namespace _322Api.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        [HttpGet("{username}")]
-        public async Task<ActionResult<User>> GetTodoItem(string username)
-        {
-            var todoItem = await _context.Users.FindAsync(username);
-
-            if (todoItem == null)
-            {
-                return NotFound();
-            }
-
-            return todoItem;
-        }
-
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<User>> Register(User user)
+        [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Register(User user)
         {
             if (_context.Users.Where(u => u.Username == user.Username).FirstOrDefault() != null)
             {
-                return BadRequest();
+                return BadRequest("Invalid username or password");
             }
 
-            byte[] salt;
-            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-            var pbkdf2 = new Rfc2898DeriveBytes(user.Password, salt, 10000);
-            byte[] hash = pbkdf2.GetBytes(20);
-            byte[] hashBytes = new byte[36];
-
-            salt.CopyTo(hashBytes, 0);
-            hash.CopyTo(hashBytes, salt.Length);
-            user.Password = Convert.ToBase64String(hashBytes);
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTodoItem), new { user.Username }, user);
+            user = await this._userService.CreateUser(user);
+            return CreatedAtAction("Register", new { id = user.Id }, user);
         }
     }
 }
