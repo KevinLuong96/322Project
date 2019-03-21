@@ -17,7 +17,7 @@ services:
         networks:
         - api
         environment:
-        - db_ev=production
+        - db_env=production
             
     postgres:
         image: postgres:latest
