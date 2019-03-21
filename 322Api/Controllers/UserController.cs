@@ -57,7 +57,7 @@ namespace _322Api.Controllers
         {
             if (_context.Users.Where(u => u.Username == user.Username).FirstOrDefault() != null)
             {
-                return BadRequest("User with username alrady exists");
+                return BadRequest();
             }
 
             byte[] salt;

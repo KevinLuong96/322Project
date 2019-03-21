@@ -9,6 +9,7 @@ namespace _322Api.Models
         public int PhoneId { get; set; }
         [ForeignKey("ReviewSource")]
         public int SourceId { get; set; }
+        public string[] Category { get; set; }
         public string ReviewText { get; set; }
 
         public Review()

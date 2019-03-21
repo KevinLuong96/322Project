@@ -34,9 +34,10 @@ namespace _322Api.Controllers
         public ActionResult Authenticate(User user)
         {
             var res = Response;
+            user.Username = user.Username.ToLower().Trim();
             if (!this._loginService.Auth(user))
             {
-                return BadRequest("Incorrect username or password");
+                return BadRequest();
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
