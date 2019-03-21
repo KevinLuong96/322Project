@@ -16,6 +16,8 @@ services:
         - 8080:80
         networks:
         - api
+        environment:
+        - db_ev=production
             
     postgres:
         image: postgres:latest

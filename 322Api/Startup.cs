@@ -32,8 +32,18 @@ namespace _322Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var a = Configuration.GetConnectionString("DefaultConnection");
+            string connectionString;
+            if (Environment.GetEnvironmentVariable("db_env") == "production")
+            {
+                connectionString = Configuration.GetConnectionString("RemoteConnection");
+            }
+            else
+            {
+                connectionString = Configuration.GetConnectionString("LocalConnection");
+            }
             services.AddDbContext<DatabaseContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                opt.UseNpgsql(connectionString));
 
             //services.AddDbContext<DatabaseContext>(opt =>
             //opt.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
