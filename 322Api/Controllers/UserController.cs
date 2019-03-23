@@ -8,6 +8,7 @@ using System;
 using System.Threading.Tasks;
 using System.IdentityModel;
 using System.Security.Cryptography;
+using System.Security.Claims;
 using _322Api.Models;
 using _322Api.Services;
 
@@ -25,20 +26,39 @@ namespace _322Api.Controllers
         {
             _context = context;
             this._userService = new UserService(context);
-
             if (_context.Users.Count() == 0)
             {
-                // Create a new TodoItem if collection is empty,
-                // which means you can't delete all TodoItems.
-                _context.Users.Add(new User { Username = "test@testing.com", Password = "supersecretstring" });
+                _context.Users.Add(new User
+                {
+                    Username = "test@testing.com",
+                    Password = this._userService.HashPassword("supersecretstring"),
+                    Role = Roles.Admin,
+                });
                 _context.SaveChanges();
             }
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetTodoItems()
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("whoami")]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        public ActionResult DescribeUser()
+        {
+            var claims = HttpContext.User.Claims;
+            List<string> result = new List<string>();
+            foreach (var claim in claims)
+            {
+                result.Add(claim.ToString());
+                Console.WriteLine(result);
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -49,7 +69,7 @@ namespace _322Api.Controllers
         {
             if (_context.Users.Where(u => u.Username == user.Username).FirstOrDefault() != null)
             {
-                return BadRequest("Invalid username or password");
+                return BadRequest("User with this email already exists");
             }
 
             user = await this._userService.CreateUser(user);

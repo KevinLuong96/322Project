@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Security.Claims;
 using _322Api.Models;
 using _322Api.Services;
 
@@ -41,15 +42,24 @@ namespace _322Api.Controllers
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             //One week expiration 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
-              expires: DateTime.Now.AddMinutes(10080),
-              signingCredentials: creds);
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim("Username", user.Username),
+                    new Claim(ClaimTypes.Role, user.Role.ToString())
+                }),
+                Audience = _config["Jwt:Issuer"],
+                Issuer = _config["Jwt:Issuer"],
+                Expires = DateTime.Now.AddMinutes(10080),
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256),
+            };
 
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+            return Ok(handler.WriteToken(token));
         }
     }
 }

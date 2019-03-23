@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace _322Api.Models
 {
-    public enum Roles { Admin, User };
+    public enum Roles { User, Admin };
 
     public class User
     {
         public int Id { get; private set; }
-        public readonly Roles role;
+        public Roles Role { get; set; }
         [Required]
         public string Username { get; set; }
         [Required]
