@@ -55,7 +55,6 @@ namespace _322Api.Controllers
             foreach (var claim in claims)
             {
                 result.Add(claim.ToString());
-                Console.WriteLine(result);
             }
 
             return Ok(result);
