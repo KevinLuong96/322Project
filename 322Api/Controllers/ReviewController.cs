@@ -28,23 +28,7 @@ namespace _322Api.Controllers
             _phoneIds = new SortedDictionary<string, int> { };
             _sourceIds = new SortedDictionary<string, int> { };
 
-            if (context.ReviewSources.Count() == 0)
-            {
-                context.ReviewSources.Add(new ReviewSource
-                {
-                    SourceName = "TheVerge",
-                });
-                context.ReviewSources.Add(new ReviewSource
-                {
-                    SourceName = "TechRadar",
-                });
-                context.ReviewSources.Add(new ReviewSource
-                {
-                    SourceName = "Cnet",
-                });
 
-                context.SaveChanges();
-            }
 
         }
 

@@ -22,16 +22,6 @@ namespace _322Api.Controllers
         {
             _context = context;
             this._userService = new UserService(context);
-            if (_context.Users.Count() == 0)
-            {
-                _context.Users.Add(new User
-                {
-                    Username = "test@testing.com",
-                    Password = this._userService.HashPassword("supersecretstring"),
-                    Role = Roles.Admin,
-                });
-                _context.SaveChanges();
-            }
         }
 
         [HttpGet]
