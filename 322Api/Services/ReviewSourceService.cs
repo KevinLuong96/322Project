@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using _322Api.Models;
 namespace _322Api.Services
 {
@@ -14,6 +15,16 @@ namespace _322Api.Services
         public bool CreateReviewSource(string sourceName)
         {
             return true;
+        }
+
+        public int GetReviewSourceIdBySourceName(string name)
+        {
+            ReviewSource rs = this._context.ReviewSources.Where(r => r.SourceName == name).FirstOrDefault();
+            if (rs is null)
+            {
+                return 0;
+            }
+            return rs.Id;
         }
     }
 }

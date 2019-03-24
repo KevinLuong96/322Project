@@ -4,11 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using System.Threading.Tasks;
-using System.IdentityModel;
-using System.Security.Cryptography;
-using System.Security.Claims;
 using _322Api.Models;
 using _322Api.Services;
 
@@ -66,6 +62,7 @@ namespace _322Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Register(User user)
         {
+            user.Username = user.Username.ToLower();
             if (_context.Users.Where(u => u.Username == user.Username).FirstOrDefault() != null)
             {
                 return BadRequest("User with this email already exists");
