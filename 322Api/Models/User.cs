@@ -6,7 +6,7 @@ namespace _322Api.Models
 
     public class User
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public Roles Role { get; set; }
         [Required]
         public string Username { get; set; }

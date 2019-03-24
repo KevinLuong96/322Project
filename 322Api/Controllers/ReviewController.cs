@@ -27,9 +27,6 @@ namespace _322Api.Controllers
             _reviewSourceService = new ReviewSourceService(context);
             _phoneIds = new SortedDictionary<string, int> { };
             _sourceIds = new SortedDictionary<string, int> { };
-
-
-
         }
 
         [HttpGet]

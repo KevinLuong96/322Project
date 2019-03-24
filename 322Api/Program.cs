@@ -16,48 +16,7 @@ namespace _322Api
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<DatabaseContext>();
-                    if (context.Users.Count() == 0)
-                    {
-                        context.Users.Add(new User
-                        {
-                            Username = "test@test.com",
-                            Password = "72BDqJZX4jSa9dkt/Yk8KcA0Ng1YRfFnbJa8cGcTixbWysaR",
-                            Role = Roles.Admin,
-                        });
-                    }
-                    if (context.ReviewSources.Count() == 0)
-                    {
-                        context.ReviewSources.Add(new ReviewSource
-                        {
-                            SourceName = "TheVerge",
-                        });
-                        context.ReviewSources.Add(new ReviewSource
-                        {
-                            SourceName = "TechRadar",
-                        });
-                        context.ReviewSources.Add(new ReviewSource
-                        {
-                            SourceName = "Cnet",
-                        });
-                    }
-                    context.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while seeding the database.");
-                }
-            }
-            host.Run();
-
-
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
