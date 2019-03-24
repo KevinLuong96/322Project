@@ -67,9 +67,6 @@ namespace _322Api.Controllers
                     //perform crawl in here too
                 };
                 await Task.WhenAll(tasks.ToArray());
-
-                //return data got from scraping 
-                return Ok(null);
             }
 
 
@@ -77,6 +74,7 @@ namespace _322Api.Controllers
             reviews = this._reviewService.QueryReviewsById(phoneId);
             return Ok(reviews);
         }
+
         [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -87,10 +85,10 @@ namespace _322Api.Controllers
 
             foreach (HttpReview review in r)
             {
-                Review temp = this.ConvertReview(review);
+                Review temp = await this.ConvertReview(review);
                 if (this._reviewService.IsReviewUnique(temp.PhoneId, temp.SourceId))
                 {
-                    reviews.Add(this.ConvertReview(review));
+                    reviews.Add(temp);
                 }
             }
 
@@ -106,7 +104,7 @@ namespace _322Api.Controllers
 
         //Converts an HTTP review with sourcename and phone name into a review
         //with sourceId and phoneId
-        private Review ConvertReview(HttpReview reviewData)
+        private async Task<Review> ConvertReview(HttpReview reviewData)
         {
             Review review = new Review
             {
@@ -123,6 +121,12 @@ namespace _322Api.Controllers
             catch
             {
                 phoneId = this._phoneService.GetPhoneIdByName(reviewData.PhoneName);
+                //no phone found, insert into db
+                if (phoneId == 0)
+                {
+                    Phone newPhone = await this._phoneService.CreatePhone(reviewData.PhoneName);
+                    phoneId = newPhone.Id;
+                }
                 this._phoneIds[reviewData.PhoneName] = phoneId;
             }
 
