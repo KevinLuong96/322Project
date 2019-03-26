@@ -32,6 +32,26 @@ namespace _322Api.Controllers
             return Ok(phones);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Phone>> CreatePhone([FromBody] string phoneName)
+        {
+            if (phoneName == "")
+            {
+                return BadRequest("No phone name provided");
+            }
+            phoneName = phoneName.Trim().ToLower();
+
+            int phoneId = this._phoneService.GetPhoneIdByName(phoneName);
+            if (phoneId != 0)
+            {
+                return BadRequest("A phone with this name already exists in database");
+            }
+
+            Phone phone;
+            phone = await this._phoneService.CreatePhone(phoneName);
+            return Ok(phone);
+        }
+
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -24,7 +24,7 @@ namespace _322Api.Services
         public async Task<Phone> CreatePhone(string phoneName)
         {
             Phone phone;
-            phone = new Phone { Name = phoneName, Score = 0, LastCrawl = DateTime.Now };
+            phone = new Phone { Name = phoneName.ToLower().Trim(), Score = 0, LastCrawl = DateTime.Now };
             this._context.Phones.Add(phone);
             await this._context.SaveChangesAsync();
             return phone;
