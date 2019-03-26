@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using _322Api.Models;
 namespace _322Api.Services
 {
@@ -12,9 +13,13 @@ namespace _322Api.Services
             this._context = context;
         }
 
-        public bool CreateReviewSource(string sourceName)
+        public async Task<ReviewSource> CreateReviewSource(string sourceName)
         {
-            return true;
+            ReviewSource rs;
+            rs = new ReviewSource { SourceName = sourceName };
+            this._context.ReviewSources.Add(rs);
+            await this._context.SaveChangesAsync();
+            return rs;
         }
 
         public int GetReviewSourceIdBySourceName(string name)

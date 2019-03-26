@@ -9,6 +9,8 @@ namespace _322Api.Models
         public string Category { get; set; }
         [Required]
         public string ReviewText { get; set; }
+        [Required]
+        public string ReviewUrl { get; set; }
     }
 
     public class Review : ReviewBase

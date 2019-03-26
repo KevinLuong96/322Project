@@ -7,6 +7,8 @@ namespace _322Api.Models
         public string Name { get; set; }
         public DateTime LastCrawl { get; set; }
         public int Score { get; set; }
+        public string ImageUrl { get; set; }
+        public decimal Price { get; set; }
 
         public Device()
         {

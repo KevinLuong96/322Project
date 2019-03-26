@@ -25,10 +25,10 @@ namespace _322Api.Services
             return reviews;
         }
 
-        public bool IsReviewUnique(int phoneId, int sourceId)
+        public bool IsReviewUnique(string reviewUrl)
         {
             Review review = this._context.Reviews
-                .Where(r => r.PhoneId == phoneId && r.SourceId == sourceId).FirstOrDefault();
+                .Where(r => r.ReviewUrl == reviewUrl).FirstOrDefault();
 
             if (!(review is null))
             {

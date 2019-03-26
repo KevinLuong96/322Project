@@ -42,9 +42,9 @@ namespace _322Api
             {
                 connectionString = Configuration.GetConnectionString("LocalConnection");
             }
+
             services.AddDbContext<DatabaseContext>(opt =>
                 opt.UseNpgsql(connectionString));
-
             //services.AddDbContext<DatabaseContext>(opt =>
             //opt.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
 
@@ -81,9 +81,12 @@ namespace _322Api
 
             //app.UseHttpsRedirection();
             app.UseAuthentication();
-
-
             app.UseMvc();
+            //using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    scope.ServiceProvider.GetService<DatabaseContext>().Database.Migrate();
+            //}
+
             //var services = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             //var context = services.ServiceProvider.GetService<DbContext>();
             //context.Database.Migrate();

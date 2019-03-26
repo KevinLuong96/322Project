@@ -9,6 +9,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +18,8 @@
     <PackageReference Include="Abot" Version="1.6.0.17" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0" />
     <PackageReference Include="NpgSql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
+    <PackageReference Include="Fastenshtein" Version="1.0.0.5" />
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,10 +36,42 @@
     <Compile Remove="Migrations\20190316210116_reviews.Designer.cs" />
     <Compile Remove="Migrations\20190319232222_migrate.cs" />
     <Compile Remove="Migrations\20190319232222_migrate.Designer.cs" />
+    <Compile Remove="Migrations\20190320000806_migration_1.cs" />
+    <Compile Remove="Migrations\20190320011652_migration_16.Designer.cs" />
+    <Compile Remove="Migrations\20190320011652_migration_16.cs" />
+    <Compile Remove="Migrations\20190321214518_new.Designer.cs" />
+    <Compile Remove="Migrations\20190321214518_new.cs" />
+    <Compile Remove="Migrations\20190323172454_user_roles.Designer.cs" />
+    <Compile Remove="Migrations\20190323172454_user_roles.cs" />
+    <Compile Remove="Migrations\20190323195841_test2.Designer.cs" />
+    <Compile Remove="Migrations\20190323195841_test2.cs" />
+    <Compile Remove="Migrations\20190323195903_test9999.Designer.cs" />
+    <Compile Remove="Migrations\20190323195903_test9999.cs" />
+    <Compile Remove="Migrations\20190323223835_reviews.Designer.cs" />
+    <Compile Remove="Migrations\20190323223835_reviews.cs" />
+    <Compile Remove="Migrations\20190323224000_reviews2.Designer.cs" />
+    <Compile Remove="Migrations\20190323224000_reviews2.cs" />
+    <Compile Remove="Migrations\20190323224109_reviewsss.Designer.cs" />
+    <Compile Remove="Migrations\20190323224109_reviewsss.cs" />
+    <Compile Remove="Migrations\DatabaseContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\20190324004448_phones.cs" />
+    <Compile Remove="Migrations\20190324004448_phones.Designer.cs" />
+    <Compile Remove="Migrations\20190324004600_add_phones.cs" />
+    <Compile Remove="Migrations\20190324004600_add_phones.Designer.cs" />
+    <Compile Remove="Migrations\20190324004628_add_phones2.cs" />
+    <Compile Remove="Migrations\20190324004628_add_phones2.Designer.cs" />
+    <Compile Remove="Migrations\20190324005747_wipe.cs" />
+    <Compile Remove="Migrations\20190324005747_wipe.Designer.cs" />
+    <Compile Remove="Migrations\20190324015155_seeeeed.cs" />
+    <Compile Remove="Migrations\20190324015155_seeeeed.Designer.cs" />
+    <Compile Remove="Migrations\20190324015224_seeeeee.cs" />
+    <Compile Remove="Migrations\20190324015224_seeeeee.Designer.cs" />
+    <Compile Remove="Models\Component.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="bfLogoForPres.png" />
     <None Remove="migrate.sql" />
+    <None Remove="Migrations\test.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="bfLogoForPres.png" />

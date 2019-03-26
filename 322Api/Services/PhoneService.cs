@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using _322Api.Models;
 using System.Threading.Tasks;
 
@@ -31,6 +32,23 @@ namespace _322Api.Services
                 return 0;
             }
             return phone.Id;
+        }
+
+        public Phone[] QueryPhonesByName(string phoneName)
+        {
+            List<Phone> similarPhones = new List<Phone> { };
+            Phone[] allPhones = this._context.Phones.ToArray();
+
+            Fastenshtein.Levenshtein lev = new Fastenshtein.Levenshtein(phoneName);
+            foreach (Phone phone in allPhones)
+            {
+                //Arbitrary number chosen for similarity necessary
+                if (lev.DistanceFrom(phone.Name) < 5)
+                {
+                    similarPhones.Add(phone);
+                }
+            }
+            return similarPhones.ToArray();
         }
     }
 }

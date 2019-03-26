@@ -67,7 +67,7 @@ namespace _322Api.Controllers
             foreach (HttpReview review in r)
             {
                 Review temp = await this.ConvertReview(review);
-                if (this._reviewService.IsReviewUnique(temp.PhoneId, temp.SourceId))
+                if (this._reviewService.IsReviewUnique(temp.ReviewUrl))
                 {
                     reviews.Add(temp);
                 }
@@ -90,7 +90,8 @@ namespace _322Api.Controllers
             Review review = new Review
             {
                 ReviewText = reviewData.ReviewText,
-                Category = reviewData.Category
+                Category = reviewData.Category,
+                ReviewUrl = reviewData.ReviewUrl
             };
             int phoneId;
             int sourceId;
@@ -118,6 +119,12 @@ namespace _322Api.Controllers
             catch
             {
                 sourceId = this._reviewSourceService.GetReviewSourceIdBySourceName(reviewData.SourceName);
+                //no source Id found, put into db
+                if (sourceId == 0)
+                {
+                    ReviewSource newReviewSource = await this._reviewSourceService.CreateReviewSource(reviewData.SourceName);
+                    sourceId = newReviewSource.Id;
+                }
                 this._sourceIds[reviewData.SourceName] = sourceId;
             }
 
