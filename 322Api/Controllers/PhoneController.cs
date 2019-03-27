@@ -33,23 +33,36 @@ namespace _322Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Phone>> CreatePhone([FromBody] string phoneName)
+        public async Task<ActionResult<Phone[]>> CreatePhones([FromBody] string[] phoneNames)
         {
-            if (phoneName == "")
-            {
-                return BadRequest("No phone name provided");
-            }
-            phoneName = phoneName.Trim().ToLower();
+            List<string> phoneList = new List<string> { };
 
-            int phoneId = this._phoneService.GetPhoneIdByName(phoneName);
-            if (phoneId != 0)
+            foreach (string p in phoneNames)
             {
-                return BadRequest("A phone with this name already exists in database");
+                if (p == "")
+                {
+                    continue;
+                }
+                string phoneName = p.Trim().ToLower();
+
+                int phoneId = this._phoneService.GetPhoneIdByName(phoneName);
+                if (phoneId != 0)
+                {
+                    continue;
+                }
+                phoneList.Add(phoneName);
+                //taskList.Add(this._phoneService.CreatePhone(phoneName));
             }
 
-            Phone phone;
-            phone = await this._phoneService.CreatePhone(phoneName);
-            return Ok(phone);
+            if (phoneList.Count == 0)
+            {
+                return BadRequest("No unique phones sent");
+            }
+            else
+            {
+                Phone[] phones = await this._phoneService.CreatePhones(phoneList.ToArray());
+                return phones;
+            }
         }
 
         [HttpPatch]

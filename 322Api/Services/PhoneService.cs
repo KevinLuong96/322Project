@@ -20,6 +20,19 @@ namespace _322Api.Services
         {
             return this._context.Phones.Find(Id);
         }
+        public async Task<Phone[]> CreatePhones(string[] phoneNames)
+        {
+            List<Phone> phones = new List<Phone> { };
+            foreach (string phoneName in phoneNames)
+            {
+                Phone phone = new Phone { Name = phoneName.ToLower().Trim(), Score = 0, LastCrawl = DateTime.Now };
+                phones.Add(phone);
+                this._context.Phones.Add(phone);
+            }
+
+            await this._context.SaveChangesAsync();
+            return phones.ToArray();
+        }
 
         public async Task<Phone> CreatePhone(string phoneName)
         {
@@ -58,19 +71,38 @@ namespace _322Api.Services
 
         public Phone[] QueryPhonesByName(string phoneName)
         {
-            List<Phone> similarPhones = new List<Phone> { };
+            //List<Phone> similarPhones = new List<Phone> { };
+            SortedDictionary<int, List<Phone>> similarPhones =
+                new SortedDictionary<int, List<Phone>> { };
             Phone[] allPhones = this._context.Phones.ToArray();
 
             Fastenshtein.Levenshtein lev = new Fastenshtein.Levenshtein(phoneName);
             foreach (Phone phone in allPhones)
             {
                 //Arbitrary number chosen for similarity necessary
-                if (lev.DistanceFrom(phone.Name) < 5)
+                int distance = lev.DistanceFrom(phone.Name);
+
+                //create distance to list of phone mapping
+                if (distance < 5)
                 {
-                    similarPhones.Add(phone);
+                    if (similarPhones.ContainsKey(distance))
+                    {
+                        similarPhones[distance].Add(phone);
+                    }
+                    else
+                    {
+                        similarPhones.Add(distance, new List<Phone> { phone });
+                    }
                 }
             }
-            return similarPhones.ToArray();
+
+            List<Phone> sortedPhones = new List<Phone> { };
+            foreach (List<Phone> phones in similarPhones.Values)
+            {
+                sortedPhones.AddRange(phones);
+            }
+
+            return sortedPhones.ToArray();
         }
     }
 }
