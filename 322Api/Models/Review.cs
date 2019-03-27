@@ -11,6 +11,8 @@ namespace _322Api.Models
         public string ReviewText { get; set; }
         [Required]
         public string ReviewUrl { get; set; }
+        [Required]
+        public string SourceName { get; set; }
     }
 
     public class Review : ReviewBase
@@ -28,8 +30,6 @@ namespace _322Api.Models
     {
         [Required]
         public string PhoneName { get; }
-        [Required]
-        public string SourceName { get; }
 
         public HttpReview(string Category, string ReviewText, string PhoneName, string SourceName)
         {

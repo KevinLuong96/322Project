@@ -20,24 +20,26 @@ namespace _322Api.Services
         {
             return this._context.Phones.Find(Id);
         }
-        public async Task<Phone[]> CreatePhones(string[] phoneNames)
+        public async Task<Phone[]> CreatePhones(Phone[] phones)
         {
-            List<Phone> phones = new List<Phone> { };
-            foreach (string phoneName in phoneNames)
+            List<Phone> createdPhones = new List<Phone> { };
+            foreach (Phone p in phones)
             {
-                Phone phone = new Phone { Name = phoneName.ToLower().Trim(), Score = 0, LastCrawl = DateTime.Now };
-                phones.Add(phone);
-                this._context.Phones.Add(phone);
+                p.Name = p.Name.ToLower().Trim();
+                p.LastCrawl = DateTime.Now;
+                createdPhones.Add(p);
+                this._context.Phones.Add(p);
             }
 
             await this._context.SaveChangesAsync();
-            return phones.ToArray();
+            return createdPhones.ToArray();
         }
 
         public async Task<Phone> CreatePhone(string phoneName)
         {
             Phone phone;
-            phone = new Phone { Name = phoneName.ToLower().Trim(), Score = 0, LastCrawl = DateTime.Now };
+            phone = new Phone(phoneName.ToLower().Trim(), 0, 0);
+            //phone = new Phone { Name = phoneName.ToLower().Trim(), Score = 0, LastCrawl = DateTime.Now };
             this._context.Phones.Add(phone);
             await this._context.SaveChangesAsync();
             return phone;
@@ -53,6 +55,10 @@ namespace _322Api.Services
             if (p.ImageUrl != "")
             {
                 phone.ImageUrl = p.ImageUrl;
+            }
+            if (p.Score != 0)
+            {
+                phone.Score = p.Score;
             }
             this._context.Phones.Update(phone);
             await this._context.SaveChangesAsync();

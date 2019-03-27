@@ -33,25 +33,20 @@ namespace _322Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Phone[]>> CreatePhones([FromBody] string[] phoneNames)
+        public async Task<ActionResult<Phone[]>> CreatePhones([FromBody] Phone[] phones)
         {
-            List<string> phoneList = new List<string> { };
+            List<Phone> phoneList = new List<Phone> { };
 
-            foreach (string p in phoneNames)
+            foreach (Phone p in phones)
             {
-                if (p == "")
-                {
-                    continue;
-                }
-                string phoneName = p.Trim().ToLower();
+                string phoneName = p.Name.Trim().ToLower();
 
                 int phoneId = this._phoneService.GetPhoneIdByName(phoneName);
                 if (phoneId != 0)
                 {
                     continue;
                 }
-                phoneList.Add(phoneName);
-                //taskList.Add(this._phoneService.CreatePhone(phoneName));
+                phoneList.Add(p);
             }
 
             if (phoneList.Count == 0)
@@ -60,8 +55,8 @@ namespace _322Api.Controllers
             }
             else
             {
-                Phone[] phones = await this._phoneService.CreatePhones(phoneList.ToArray());
-                return phones;
+                Phone[] createdPhones = await this._phoneService.CreatePhones(phoneList.ToArray());
+                return createdPhones;
             }
         }
 
@@ -71,7 +66,7 @@ namespace _322Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdatePhone(PhonePatch p)
         {
-            if (p.PhoneName == "" || (p.Price == 0 && p.ImageUrl == ""))
+            if (p.PhoneName == "" || (p.Price == 0 && p.ImageUrl == "" && p.Score == 0))
             {
                 return BadRequest();
             }

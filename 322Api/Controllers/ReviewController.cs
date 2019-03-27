@@ -101,7 +101,8 @@ namespace _322Api.Controllers
             {
                 ReviewText = reviewData.ReviewText,
                 Category = reviewData.Category,
-                ReviewUrl = reviewData.ReviewUrl
+                ReviewUrl = reviewData.ReviewUrl,
+                SourceName = reviewData.SourceName
             };
             int phoneId;
             int sourceId;
