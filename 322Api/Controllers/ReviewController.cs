@@ -55,6 +55,16 @@ namespace _322Api.Controllers
             reviews = this._reviewService.QueryReviewsById(phoneId);
             return Ok(reviews);
         }
+        [Authorize]
+        [HttpGet]
+        [Route("{id:int}")]
+        public ActionResult<Review[]> GetDeviceReviewsById(int id)
+        {
+            Review[] reviews;
+            reviews = this._reviewService.QueryReviewsById(id);
+            return Ok(reviews);
+        }
+
 
         [Authorize]
         [HttpPost]
