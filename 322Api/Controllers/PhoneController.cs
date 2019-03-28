@@ -12,16 +12,17 @@ namespace _322Api.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class PhoneController : ControllerBase
+    public class PhoneController : BaseController
     {
         private readonly PhoneService _phoneService;
         public PhoneController(DatabaseContext context)
         {
             this._phoneService = new PhoneService(context);
+            this._userService = new UserService(context);
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Phone>> GetPhones(string phoneName)
+        public async Task<ActionResult<IEnumerable<Phone>>> GetPhones(string phoneName)
         {
             if (phoneName is null)
             {
@@ -29,6 +30,12 @@ namespace _322Api.Controllers
             }
             Phone[] phones;
             phones = this._phoneService.QueryPhonesByName(phoneName.ToLower().Trim());
+
+            User user = this.GetUserFromClaims();
+            if (!(user is null))
+            {
+                await this._userService.AddToHistory(user, phoneName);
+            }
             return Ok(phones);
         }
 

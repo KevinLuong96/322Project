@@ -43,6 +43,47 @@ namespace _322Api.Services
             }
         }
 
+        public async Task<User> AddToHistory(User user, string search)
+        {
+            bool found = false;
+            string[] newHistory;
+            if (user.History is null)
+            {
+                user.History = new string[0];
+            }
+            for (int i = 0; i < user.History.Length; i++)
+            {
+                if (user.History[i] == search)
+                {
+                    found = true;
+                }
+            }
+            if (found)
+            {
+                newHistory = new string[user.History.Length];
+            }
+            else
+            {
+                newHistory = new string[user.History.Length + 1];
+            }
+            newHistory[0] = search;
+            int j = 1;
+            foreach (string s in user.History)
+            {
+                if (s != search)
+                {
+                    newHistory[j] = s;
+                    j++;
+                }
+            }
+
+            user.History = newHistory;
+            this._context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+
+        }
+
         public async Task<User> CreateUser(User user)
         {
             user.Password = HashPassword(user.Password);

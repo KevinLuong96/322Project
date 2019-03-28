@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\HomeController.cs" />
     <Compile Remove="Models\EmptyClass.cs" />
     <Compile Remove="Migrations\20190316015224_update_user.Designer.cs" />
     <Compile Remove="Migrations\20190316015224_update_user.cs" />

@@ -14,10 +14,9 @@ namespace _322Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly DatabaseContext _context;
-        private readonly UserService _userService;
 
         public UserController(DatabaseContext context)
         {
@@ -37,22 +36,12 @@ namespace _322Api.Controllers
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public ActionResult<User> GetUserFromToken()
         {
-            string username = "";
-            var claims = HttpContext.User.Claims;
-            foreach (var claim in claims)
-            {
-                if (claim.Type == "Username")
-                {
-                    username = claim.Value;
-                    break;
-                }
-            }
-
-            if (username == "")
+            User user = this.GetUserFromClaims();
+            if (user is null)
             {
                 return BadRequest();
             }
-            return Ok(this._userService.GetUserByName(username));
+            return Ok(user);
         }
 
         [HttpPost]

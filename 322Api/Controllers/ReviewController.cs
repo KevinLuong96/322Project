@@ -12,7 +12,7 @@ namespace _322Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ReviewController : ControllerBase
+    public class ReviewController : BaseController
     {
         private readonly ReviewService _reviewService;
         private readonly PhoneService _phoneService;
