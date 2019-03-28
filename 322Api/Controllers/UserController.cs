@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 using _322Api.Models;
 using _322Api.Services;
 
@@ -33,17 +34,25 @@ namespace _322Api.Controllers
 
         [HttpGet]
         [Route("whoami")]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
-        public ActionResult DescribeUser()
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        public ActionResult<User> GetUserFromToken()
         {
+            string username = "";
             var claims = HttpContext.User.Claims;
-            List<string> result = new List<string>();
             foreach (var claim in claims)
             {
-                result.Add(claim.ToString());
+                if (claim.Type == "Username")
+                {
+                    username = claim.Value;
+                    break;
+                }
             }
 
-            return Ok(result);
+            if (username == "")
+            {
+                return BadRequest();
+            }
+            return Ok(this._userService.GetUserByName(username));
         }
 
         [HttpPost]
