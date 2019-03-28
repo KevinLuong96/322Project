@@ -82,21 +82,31 @@ namespace _322Api.Services
                 new SortedDictionary<int, List<Phone>> { };
             Phone[] allPhones = this._context.Phones.ToArray();
 
-            Fastenshtein.Levenshtein lev = new Fastenshtein.Levenshtein(phoneName);
+            Fastenshtein.Levenshtein lev;
+            foreach (string q in phoneName.Split(" "))
+            {
+
+            }
+
             foreach (Phone phone in allPhones)
             {
                 int minDistance = Math.Max(phone.Name.Length, phoneName.Length);
                 string[] words = phone.Name.Split(" ");
-                foreach (string word in words)
+                foreach (string q in phoneName.Split(" "))
                 {
-                    int tempDistance = lev.DistanceFrom(word);
-                    if (tempDistance == Math.Max(word.Length, phoneName.Length))
+                    lev = new Fastenshtein.Levenshtein(q);
+                    foreach (string word in words)
                     {
-                        continue;
-                    }
+                        int tempDistance = lev.DistanceFrom(word);
+                        if (tempDistance == Math.Max(word.Length, q.Length))
+                        {
+                            continue;
+                        }
 
-                    minDistance = Math.Min(minDistance, tempDistance);
+                        minDistance = Math.Min(minDistance, tempDistance);
+                    }
                 }
+
 
                 //Arbitrary number chosen for similarity necessary
                 //create distance to list of phone mapping
