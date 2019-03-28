@@ -28,7 +28,7 @@ namespace _322Api.Controllers
                 return BadRequest("No phone name provided");
             }
             Phone[] phones;
-            phones = this._phoneService.QueryPhonesByName(phoneName);
+            phones = this._phoneService.QueryPhonesByName(phoneName.ToLower().Trim());
             return Ok(phones);
         }
 

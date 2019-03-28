@@ -39,7 +39,7 @@ namespace _322Api.Services
         {
             Phone phone;
             phone = new Phone(phoneName.ToLower().Trim(), 0, 0);
-            //phone = new Phone { Name = phoneName.ToLower().Trim(), Score = 0, LastCrawl = DateTime.Now };
+            phone.LastCrawl = DateTime.Now;
             this._context.Phones.Add(phone);
             await this._context.SaveChangesAsync();
             return phone;
@@ -85,19 +85,30 @@ namespace _322Api.Services
             Fastenshtein.Levenshtein lev = new Fastenshtein.Levenshtein(phoneName);
             foreach (Phone phone in allPhones)
             {
-                //Arbitrary number chosen for similarity necessary
-                int distance = lev.DistanceFrom(phone.Name);
-
-                //create distance to list of phone mapping
-                if (distance < 5)
+                int minDistance = Math.Max(phone.Name.Length, phoneName.Length);
+                string[] words = phone.Name.Split(" ");
+                foreach (string word in words)
                 {
-                    if (similarPhones.ContainsKey(distance))
+                    int tempDistance = lev.DistanceFrom(word);
+                    if (tempDistance == Math.Max(word.Length, phoneName.Length))
                     {
-                        similarPhones[distance].Add(phone);
+                        continue;
+                    }
+
+                    minDistance = Math.Min(minDistance, tempDistance);
+                }
+
+                //Arbitrary number chosen for similarity necessary
+                //create distance to list of phone mapping
+                if (minDistance < 3)
+                {
+                    if (similarPhones.ContainsKey(minDistance))
+                    {
+                        similarPhones[minDistance].Add(phone);
                     }
                     else
                     {
-                        similarPhones.Add(distance, new List<Phone> { phone });
+                        similarPhones.Add(minDistance, new List<Phone> { phone });
                     }
                 }
             }
