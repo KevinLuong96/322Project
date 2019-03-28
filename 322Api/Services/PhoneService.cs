@@ -79,14 +79,14 @@ namespace _322Api.Services
         {
             //List<Phone> similarPhones = new List<Phone> { };
             List<Phone> matchedPhones = new List<Phone> { };
-            SortedDictionary<int, List<Phone>> similarPhones =
-                new SortedDictionary<int, List<Phone>> { };
+            SortedDictionary<double, List<Phone>> similarPhones =
+                new SortedDictionary<double, List<Phone>> { };
             Phone[] allPhones = this._context.Phones.ToArray();
 
             Fastenshtein.Levenshtein lev;
             foreach (Phone phone in allPhones)
             {
-                int minDistance = Math.Max(phoneName.Length, phone.Name.Length);
+                double minDistance = Math.Max(phoneName.Length, phone.Name.Length);
                 string[] words = phone.Name.Split(" ");
                 foreach (string q in phoneName.Split(" "))
                 {
@@ -102,29 +102,37 @@ namespace _322Api.Services
                     }
                 }
 
-
+                lev = new Fastenshtein.Levenshtein(phoneName);
+                minDistance += (lev.DistanceFrom(phone.Name) / 10.0);
                 //Arbitrary number chosen for similarity necessary
                 //create distance to list of phone mapping
                 if (minDistance < 3)
                 {
-                    matchedPhones.Add(phone);
+                    if (similarPhones.ContainsKey(minDistance))
+                    {
+                        similarPhones[minDistance].Add(phone);
+                    }
+                    else
+                    {
+                        similarPhones.Add(minDistance, new List<Phone> { phone });
+                    }
                 }
             }
 
-            foreach (Phone phone in matchedPhones)
-            {
-                lev = new Fastenshtein.Levenshtein(phoneName);
-                int distance = lev.DistanceFrom(phone.Name);
+            //foreach (Phone phone in matchedPhones)
+            //{
+            //    lev = new Fastenshtein.Levenshtein(phoneName);
+            //    int distance = lev.DistanceFrom(phone.Name);
 
-                if (similarPhones.ContainsKey(distance))
-                {
-                    similarPhones[distance].Add(phone);
-                }
-                else
-                {
-                    similarPhones.Add(distance, new List<Phone> { phone });
-                }
-            }
+            //    if (similarPhones.ContainsKey(distance))
+            //    {
+            //        similarPhones[distance].Add(phone);
+            //    }
+            //    else
+            //    {
+            //        similarPhones.Add(distance, new List<Phone> { phone });
+            //    }
+            //}
 
             List<Phone> sortedPhones = new List<Phone> { };
             foreach (List<Phone> phones in similarPhones.Values)
