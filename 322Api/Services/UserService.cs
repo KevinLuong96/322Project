@@ -43,10 +43,16 @@ namespace _322Api.Services
             }
         }
 
-        public async Task<User> AddToHistory(User user, string search)
+        public async Task<User> AddToHistory(int userId, string search)
         {
             bool found = false;
             string[] newHistory;
+            User user = this.GetUserById(userId);
+            if (user is null)
+            {
+                return null;
+            }
+
             if (user.History is null)
             {
                 user.History = new string[0];

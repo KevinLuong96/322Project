@@ -34,7 +34,7 @@ namespace _322Api.Controllers
             User user = this.GetUserFromClaims();
             if (!(user is null))
             {
-                await this._userService.AddToHistory(user, phoneName);
+                await this._userService.AddToHistory(user.Id, phoneName);
             }
             return Ok(phones);
         }
