@@ -29,8 +29,9 @@ namespace _322Api.Controllers
             {
                 return null;
             }
-            return this._userService.GetUserByName(username);
-
+            User user = this._userService.GetUserByName(username);
+            user.Password = "";
+            return user;
         }
     }
 }
